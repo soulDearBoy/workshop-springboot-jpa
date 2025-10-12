@@ -4,6 +4,10 @@ import java.io.Serializable;
 import java.time.Instant;
 import java.util.Objects;
 
+import com.example.demo.entities.enums.OrderStatus;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -20,7 +24,9 @@ private static final long serialVersionUID = 1L;
 @Id
 @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd 'T' HH:mm:ss'Z'", timezone = "GMT")
 	private Instant moment;
+private OrderStatus orderStatus;
 	 
 	@ManyToOne
 	@JoinColumn(name = "client_id")
@@ -32,9 +38,10 @@ private static final long serialVersionUID = 1L;
 	}
 
 
-	public Order(Long id, Instant moment, User client) {
+	public Order(Long id, Instant moment, OrderStatus orderStatus, User client) {
 		super();
 		this.id = id;
+		this.orderStatus = orderStatus;
 		this.moment = moment;
 		this.client = client;
 	}
