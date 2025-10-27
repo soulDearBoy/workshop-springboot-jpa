@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import com.example.demo.entities.User;
 import com.example.demo.repositories.UserRepository;
 
+import services.exceptions.ResourceNotFoundException;
+
 
 @Service
 public class UserService {
@@ -25,7 +27,7 @@ public class UserService {
 	
 		public User findById(Long id) {
 			Optional<User> obj = repository.findById(id);
-			return obj.get();
+			return obj.orElseThrow(() -> new ResourceNotFoundException(id));
 		}
 		
 		public User insert(User obj) {
